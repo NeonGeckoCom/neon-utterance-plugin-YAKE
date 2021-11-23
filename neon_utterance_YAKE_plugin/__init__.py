@@ -28,8 +28,8 @@ import yake
 from neon_transformers import UtteranceTransformer
 
 
-class YAKETagger(UtteranceTransformer):
-    def __init__(self, name="yake", priority=60):
+class YAKEExtractor(UtteranceTransformer):
+    def __init__(self, name="YAKE", priority=60):
         super().__init__(name, priority)
         self.max_ngram_size = 2
 
