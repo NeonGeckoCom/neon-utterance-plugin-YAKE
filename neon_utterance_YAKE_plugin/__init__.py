@@ -31,14 +31,16 @@ from neon_transformers import UtteranceTransformer
 class YAKETagger(UtteranceTransformer):
     def __init__(self, name="yake", priority=60):
         super().__init__(name, priority)
-        max_ngram_size = 2
-        self.kw_extractor = yake.KeywordExtractor(n=max_ngram_size)
+        self.max_ngram_size = 2
 
     def transform(self, utterances, context=None):
         keywords = []
+        context = context or {}
+        lang = context.get("lang", "en").split("-")[0]
+        kw_extractor = yake.KeywordExtractor(n=self.max_ngram_size, lan=lang)
         for utt in utterances:
             # lower score is better
-            keywords += self.kw_extractor.extract_keywords(utt)
+            keywords += kw_extractor.extract_keywords(utt)
 
         # return unchanged utterances + data
         return utterances, {"yake_keywords": keywords}
