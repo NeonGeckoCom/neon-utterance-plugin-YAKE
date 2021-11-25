@@ -26,9 +26,12 @@
 import yake
 
 from neon_transformers import UtteranceTransformer
+from neon_transformers.tasks import UtteranceTask
 
 
 class YAKEExtractor(UtteranceTransformer):
+    task = UtteranceTask.KEYWORD_EXTRACTION
+
     def __init__(self, name="YAKE", priority=60):
         super().__init__(name, priority)
         self.max_ngram_size = 2
