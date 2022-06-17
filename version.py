@@ -1,6 +1,9 @@
-# # NEON AI (TM) SOFTWARE, Software Development Kit & Application Development System
-# # All trademark and other rights reserved by their respective owners
-# # Copyright 2008-2021 Neongecko.com Inc.
+# NEON AI (TM) SOFTWARE, Software Development Kit & Application Framework
+# All trademark and other rights reserved by their respective owners
+# Copyright 2008-2022 Neongecko.com Inc.
+# Contributors: Daniel McKnight, Guy Daniels, Elon Gasper, Richard Leeds,
+# Regina Bloomstine, Casimiro Ferreira, Andrii Pernatii, Kirill Hrymailo
+# BSD-3 License
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
 # 1. Redistributions of source code must retain the above copyright notice,
@@ -23,27 +26,4 @@
 # NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 # SOFTWARE,  EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-import yake
-
-from neon_transformers import UtteranceTransformer
-from neon_transformers.tasks import UtteranceTask
-
-
-class YAKEExtractor(UtteranceTransformer):
-    task = UtteranceTask.KEYWORD_EXTRACTION
-
-    def __init__(self, name="YAKE", priority=60):
-        super().__init__(name, priority)
-        self.max_ngram_size = 2
-
-    def transform(self, utterances, context=None):
-        keywords = []
-        context = context or {}
-        lang = context.get("lang", "en").split("-")[0]
-        kw_extractor = yake.KeywordExtractor(n=self.max_ngram_size, lan=lang)
-        for utt in utterances:
-            # lower score is better
-            keywords += kw_extractor.extract_keywords(utt)
-
-        # return unchanged utterances + data
-        return utterances, {"yake_keywords": keywords}
+__version__ = "0.0.2a0"
